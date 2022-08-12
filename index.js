@@ -3,6 +3,7 @@ const path = require("path");
 
 const app = express();
 
+console.log(path.resolve(__dirname, "src"));
 app.use(
   "/static",
   express.static(path.resolve(__dirname, "src"), {
@@ -10,7 +11,7 @@ app.use(
   })
 );
 
-const port = 8080;
+const port = 8081;
 
 // app.use(express.json());
 app.get("/photoCat", (req, res) => {

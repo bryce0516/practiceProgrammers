@@ -1,4 +1,4 @@
-import Main from "../js/Main/index.js";
+import Main from "./Main/index.js";
 class App {
   constructor(root) {
     console.log("this is construtor", root);
