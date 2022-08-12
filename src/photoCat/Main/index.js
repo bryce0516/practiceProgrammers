@@ -6,7 +6,10 @@ export default class Main extends Wrapper {
     super(props);
     this.root = props;
   }
-
+  moveToPage(number) {
+    let num = 0;
+    console.log("working", num + number, window.location);
+  }
   async getHtml() {
     let underHtml = ``;
     this.response = await instance({
@@ -15,15 +18,25 @@ export default class Main extends Wrapper {
       method: "GET",
       data: {},
     });
-    console.log("check response", this.response);
     if (this.response) {
       this.response.map((element) => {
         if (element.type === "DIRECTORY") {
-          underHtml += `<div class="Node">
-          <div>${element.name}</div>
-      </div>`;
+          if (element.filePath) {
+            underHtml += `<div class="Node">
+            <img src="./static/photoCat/assets/directory.png">
+            <div type="button" onclick={'${this.moveToPage()}'}>${
+              element.name
+            }</div>
+        </div>`;
+          } else {
+            underHtml += `<div class="Node">
+            <img src="./static/photoCat/assets/directory.png">
+            <div>${element.name}</div>
+        </div>`;
+          }
         } else if (element.type === "FILE") {
           underHtml += `<div class="Node">
+          <img src="./static/photoCat/assets/showBigBtn.png">
           <div>${element.name}</div>
       </div>`;
         }
