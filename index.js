@@ -5,7 +5,7 @@ const app = express();
 
 app.use(
   "/static",
-  express.static(path.resolve(__dirname, "src/static"), {
+  express.static(path.resolve(__dirname, "src"), {
     extensions: ["js", "css"],
   })
 );
@@ -13,8 +13,8 @@ app.use(
 const port = 8080;
 
 // app.use(express.json());
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve("./src", "./index.html"));
+app.get("/photoCat", (req, res) => {
+  res.sendFile(path.resolve("./src/photoCat", "./index.html"));
 });
 
 app.listen(port, () => console.log(`Server is running port :: ${port}`));
