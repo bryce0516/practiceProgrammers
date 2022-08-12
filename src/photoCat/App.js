@@ -1,7 +1,6 @@
 import Main from "./Main/index.js";
 class App {
   constructor(root) {
-    console.log("this is construtor", root);
     this.root = root;
     this.router = [{ path: "/web/", isMathch: false, view: Main }];
 
