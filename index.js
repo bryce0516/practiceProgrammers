@@ -18,4 +18,8 @@ app.get("/photoCat", (req, res) => {
   res.sendFile(path.resolve("./src/photoCat", "./index.html"));
 });
 
+app.get("/myClass", (req, res) => {
+  res.sendFile(path.resolve("./src/myClass", "./index.html"));
+});
+
 app.listen(port, () => console.log(`Server is running port :: ${port}`));
