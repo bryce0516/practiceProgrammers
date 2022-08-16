@@ -11,7 +11,7 @@ app.use(
   })
 );
 
-const port = 8081;
+const port = 8082;
 
 // app.use(express.json());
 app.get("/photoCat", (req, res) => {
