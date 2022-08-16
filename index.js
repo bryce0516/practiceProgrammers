@@ -13,12 +13,12 @@ app.use(
 
 const port = 8082;
 
-// app.use(express.json());
-app.get("/photoCat", (req, res) => {
-  res.sendFile(path.resolve("./src/photoCat", "./index.html"));
-});
-
-app.get("/myClass", (req, res) => {
+app.use(express.json());
+// app.get("/photoCat", (req, res) => {
+//   res.sendFile(path.resolve("./src/photoCat", "./index.html"));
+// });
+// const reg = /\/.*/;
+app.get("/*", (req, res) => {
   res.sendFile(path.resolve("./src/myClass", "./index.html"));
 });
 
