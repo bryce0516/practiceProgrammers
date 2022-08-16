@@ -22,6 +22,7 @@ export default class Main {
   }
 
   render(dom) {
+    console.log("dom", dom);
     return `<div><p>this is main</p></div>`;
   }
 }
