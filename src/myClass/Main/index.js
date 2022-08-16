@@ -23,6 +23,10 @@ export default class Main {
 
   render(dom) {
     console.log("dom", dom);
-    return `<div><p>this is main</p></div>`;
+    if (dom) {
+      return `<div><p>this is has main</p></div>`;
+    } else {
+      return `<div><p>this is main</p></div>`;
+    }
   }
 }
