@@ -1,20 +1,29 @@
 import Nodes from "./Component/Nodes";
 import Breadcrumb from "./Component/Breadcrumb.js";
 
-const $app = document.querySelector(".app");
+function App($app) {
+  this.state = {
+    isRoot: false,
+    nodes: [],
+    depth: [],
+  };
+  const nextState = [];
+  const breadcrumb = new Breadcrumb({ $app, initialState: this.state.depth });
+  const nodes = new Nodes({
+    $app,
+    initialState: {
+      isRoot: this.state.isRoot,
+      nodes: this.state.nodes,
+    },
+    onClick: (node) => {
+      if (node.type === "DIRECTORY") {
+      } else if (node.type === "FILE") {
+      }
+    },
+  });
 
-const initialState = {
-  nodes: [],
-};
+  // nodes.setState(nextState);
+  // breadcrumb.setState(nextState);
+}
 
-const nodes = new Nodes({
-  $app,
-  initialState,
-});
-const breadcrumb = new Breadcrumb({ $app, initialState });
-const nextState = {
-  nodes: [],
-};
-
-nodes.setState(nextState);
-breadcrumb.setState(nextState);
+export default App;
