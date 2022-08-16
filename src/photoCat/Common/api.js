@@ -16,6 +16,8 @@ const instance = async (props) => {
     }
     if (response !== undefined) {
       return await response.json();
+    } else if (!response.ok) {
+      throw Error("something wrong");
     } else {
       return null;
     }

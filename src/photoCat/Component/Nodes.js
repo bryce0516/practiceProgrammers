@@ -1,7 +1,8 @@
 function Nodes({ $app, initialState, onClick }) {
   this.state = initialState;
   this.onClick = onClick;
-  this.$target = document.createElement("ul");
+  this.$target = document.createElement("div");
+  this.$target.className = "Nodes";
   $app.appendChild(this.$target);
 
   this.setState = (nextState) => {
@@ -27,28 +28,45 @@ function Nodes({ $app, initialState, onClick }) {
         .join("");
 
       this.$target.innerHTML = !this.state.isRoot
-        ? `<div class="Node"><img src="./static/photoCat/assets/prev.png"/>${nodesTemplate}</div>`
-        : nodesTemplate;
+        ? `<img src="./static/photoCat/assets/prev.png"/>${nodesTemplate}`
+        : `${nodesTemplate}`;
     }
-    console.log("inner Nodes", this.state);
-    if (this.state.nodes.length !== 0) {
-      this.$target.innerHTML = this.state.nodes.map(
-        (node) => `<li>${node.name}</li>`
+    // if (this.state.nodes.length !== 0) {
+    //   this.$target.innerHTML = this.state.nodes.map(
+    //     (node) => `<li>${node.name}</li>`
+    //   );
+    // }
+    console.log("this tar", this.$target.childNodes, this.$target.children);
+
+    // this.$target.querySelectorAll(".Node").
+    for (const $node of this.$target.children) {
+      $node.addEventListener(
+        "click",
+        (e) => {
+          e.stopPropagation();
+          // if (e.target !== e.currentTarget) return;
+          const { nodeId } = e.target.dataset;
+          const selectedNode = this.state.nodes.find(
+            (node) => node.id === nodeId
+          );
+          console.log("event listener", selectedNode, e.target);
+          if (selectedNode) {
+            this.onClick(selectedNode);
+          }
+        },
+        false
       );
     }
-
-    this.$target.querySelectorAll(".Node").forEach(($node) => {
-      $node.addEventListener("click", (e) => {
-        const { nodeId } = e.target.dataset;
-        const selectedNode = this.state.nodes.find(
-          (node) => node.id === nodeId
-        );
-
-        if (selectedNode) {
-          this.onClick(selectedNode);
-        }
-      });
-    });
+    // $node.addEventListener("click", (e) => {
+    //   const { nodeId } = e.target.dataset;
+    //   const selectedNode = this.state.nodes.find(
+    //     (node) => node.id === nodeId
+    //   );
+    //   console.log("event listener", selectedNode, e.target);
+    //   if (selectedNode) {
+    //     this.onClick(selectedNode);
+    //   }
+    // });
   };
 
   this.render();
