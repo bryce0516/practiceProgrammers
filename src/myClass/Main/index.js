@@ -3,9 +3,12 @@ import mainApi from "./MainApi";
 export default class Main {
   state = {
     data: [],
+    node: [],
+    depth: [],
+    filePath: "",
   };
-  constructor(props) {
-    console.log("this is main props", props);
+  constructor($root) {
+    console.log("this is main props", $root);
     this.init();
     console.log("data", this.state.data);
   }
@@ -14,9 +17,11 @@ export default class Main {
     const initialFetching = await mainApi.instance("/dev", {}, "GET");
     console.log(initialFetching);
     this.state.data = initialFetching;
+
+    this.render($root);
   }
 
-  render() {
+  render(dom) {
     return `<div><p>this is main</p></div>`;
   }
 }
