@@ -3,6 +3,9 @@
 // const initialState = {};
 // const app = new App(root, initialState);
 import App from "./NewApp";
-const $app = document.querySelector(".app");
+import ClassApp from "./ClassApp";
 
-new App($app);
+const $app = document.querySelector(".app");
+new ClassApp($app);
+
+// new App($app);/
