@@ -11,7 +11,6 @@ function Nodes({ $app, initialState }) {
   };
 
   this.render = () => {
-    console.log("this.state", this.state);
     if (this.state.nodes.length !== 0) {
       this.$target.innerHTML = this.state.nodes.map(
         (node) => `<li>${node.name}</li>`
