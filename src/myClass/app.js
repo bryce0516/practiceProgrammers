@@ -6,9 +6,9 @@ export default class App extends Wrapper {
   state = {
     root: null,
     router: [
-      { path: "/myclass", isMathch: false, view: Main },
-      { path: "/myclass/post", isMathch: false, view: Post },
-      { path: "/myclass", isMathch: false, view: Other },
+      { path: "/", isMathch: false, view: Main },
+      { path: "/post", isMathch: false, view: Post },
+      { path: "/other", isMathch: false, view: Other },
     ],
   };
   constructor($root) {
@@ -23,10 +23,8 @@ export default class App extends Wrapper {
 
   async init() {
     const { root, router } = this.state;
-    let getHtml = super.render();
-    // console.log("get ", getHtml, this.dom, typeof this.dom);
 
-    root.innerHTML += getHtml;
+    // console.log("get ", getHtml, this.dom, typeof this.dom);
 
     router.map((element) =>
       element.path === location.pathname
@@ -35,9 +33,8 @@ export default class App extends Wrapper {
     );
 
     const currentRouter = router.find((element) => element.isMathch === true);
-
-    console.log("currentRouter", currentRouter);
-    console.log("location", location.pathname);
+    let getHtml = super.render() + new currentRouter.view(root).render();
+    root.innerHTML += getHtml;
     // console.log(this.dom);
 
     // return;
