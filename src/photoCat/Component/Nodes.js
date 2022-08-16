@@ -1,6 +1,7 @@
-function Nodes({ $app, initialState, onClick }) {
+function Nodes({ $app, initialState, onClick, onBackClick }) {
   this.state = initialState;
   this.onClick = onClick;
+  this.onBackClick = onBackClick;
   this.$target = document.createElement("div");
   this.$target.className = "Nodes";
   $app.appendChild(this.$target);
@@ -36,20 +37,20 @@ function Nodes({ $app, initialState, onClick }) {
     //     (node) => `<li>${node.name}</li>`
     //   );
     // }
-    console.log("this tar", this.$target.childNodes, this.$target.children);
 
     // this.$target.querySelectorAll(".Node").
     for (const $node of this.$target.children) {
       $node.addEventListener(
         "click",
         (e) => {
-          e.stopPropagation();
           // if (e.target !== e.currentTarget) return;
-          const { nodeId } = e.target.dataset;
+          const { nodeId } = e.target.closest(".Node").dataset;
           const selectedNode = this.state.nodes.find(
             (node) => node.id === nodeId
           );
-          console.log("event listener", selectedNode, e.target);
+          if (!nodeId) {
+            this.onBackClick();
+          }
           if (selectedNode) {
             this.onClick(selectedNode);
           }

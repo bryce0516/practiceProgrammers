@@ -5,12 +5,23 @@ import ImageView from "./Component/ImageView";
 
 function App($app) {
   this.state = {
-    isRoot: true,
+    isRoot: false,
     nodes: [],
     depth: [],
     selectedFilePath: null,
   };
-  const nextState = [];
+
+  this.setState = (nextState) => {
+    this.state = nextState;
+    console.log("setState root", this.state);
+    breadcrumb.setState(this.state.depth);
+    nodes.setState({
+      isRoot: this.state.isRoot,
+      nodes: this.state.nodes,
+    });
+    imageView.setState(this.state.selectedFilePath);
+  };
+
   const imageView = new ImageView({
     $app,
     initialState: this.state.selectedFilePath,
@@ -38,19 +49,52 @@ function App($app) {
         });
         // const nextNodes = await;
       } else if (node.type === "FILE") {
+        this.setState({
+          ...this.state,
+          selectedFilePath: node.filePath,
+        });
+      }
+    },
+    onBackClick: async () => {
+      try {
+        const nextState = { ...this.state };
+        nextState.depth.pop();
+        const prevNodeId =
+          nextState.depth.length === 0
+            ? null
+            : nextState.depth[nextState.depth.length - 1].id;
+        if (prevNodeId === null) {
+          const rootNodes = await instance({
+            url: "https://zl3m4qq0l9.execute-api.ap-northeast-2.amazonaws.com",
+            addurl: `/dev`,
+            method: "GET",
+            data: {},
+          });
+
+          this.setState({
+            ...nextState,
+            isRoot: true,
+            nodes: rootNodes,
+          });
+        } else {
+          const prevNodes = await instance({
+            url: "https://zl3m4qq0l9.execute-api.ap-northeast-2.amazonaws.com",
+            addurl: `/dev/${prevNodeId}`,
+            method: "GET",
+            data: {},
+          });
+
+          this.setState({
+            ...nextState,
+            isRoot: false,
+            nodes: prevNodes,
+          });
+        }
+      } catch (error) {
+        console.log("onBackClick has error", error);
       }
     },
   });
-
-  this.setState = (nextState) => {
-    this.state = nextState;
-    console.log("setState root", this.state);
-    breadcrumb.setState(this.state.depth);
-    nodes.setState({
-      isRoot: this.state.isRoot,
-      nodes: this.state.nodes,
-    });
-  };
 
   const init = async () => {
     try {
