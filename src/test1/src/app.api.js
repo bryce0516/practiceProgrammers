@@ -10,45 +10,57 @@ export default class Api {
     return result;
   };
 
-  static onClick = async (dom, data, targetDom, stack) => {
-    const { dataset } = dom;
-    const { id } = dataset;
-    console.log("onClick inputed", id, data, targetDom, stack);
-    if (targetDom) {
-      for (const chlid of document.querySelectorAll(".Node")) {
-        targetDom.removeChild(chlid);
-      }
-    }
-
+  static onClick = async (dom, target, stack) => {
     let result = [];
-    const target = data.filter((element, index) => element.id === id);
-
-    console.log(target);
     if (target.length !== 0) {
-      if (target[0].type === "DIRECTORY") {
-        result = {
-          data: await instance({
-            url: "https://zl3m4qq0l9.execute-api.ap-northeast-2.amazonaws.com/dev",
-            addurl: `/${id}`,
-            method: "GET",
-            data: {},
-          }),
-          clickedName: target[0].name,
-        };
-      }
+      result = {
+        data: await instance({
+          url: "https://zl3m4qq0l9.execute-api.ap-northeast-2.amazonaws.com/dev",
+          addurl: `/${dom.dataset.nodeId}`,
+          method: "GET",
+          data: {},
+        }),
+        clickedName: target.name,
+      };
+
       if (Object.keys(stack).length === 1) {
-        stack[target[0].name] = result.data;
+        stack[target.name] = result.data;
       }
     }
-
     return result;
-    // console.log('onClick',super().state)
   };
 
-  static makeNode(arr, stack) {
+  static backClick(stackName, currentStack) {
+    const targetName = stackName[stackName.length - 2];
+    stackName.pop();
+    const data = currentStack[targetName];
+    return {
+      data,
+      clickedName: targetName,
+    };
+  }
+
+  static fileClick(dom, target) {
+    let hasChild = typeof dom.children === "object" ? dom.children : null;
+    console.log("fileClick", dom, dom.children, hasChild);
+    dom.style.display = "flex";
+    dom.innerHTML += `
+		<div class="ImageViewer">
+		<div class="content">
+			<img src="https://fe-dev-matching-2021-03-serverlessdeploymentbuck-t3kpj3way537.s3.ap-northeast-2.amazonaws.com/public${target.filePath}">
+		</div>
+	</div>`;
+    dom.addEventListener("click", (event) => {
+      console.log("event target modals", event.target);
+      dom.style.display = "none";
+    });
+  }
+
+  static makeNode(arr, stack, screenName) {
+    console.log("makeNode, stack", stack, screenName);
     let html = "";
-    if (Object.keys(stack).length > 1) {
-      html += `<div class="Node">
+    if (screenName !== "root") {
+      html += `<div class="Node" data-node-id="-999">
             <img src="./assets/prev.png">
           </div>`;
     }

@@ -13,7 +13,7 @@ const instance = async (props) => {
         params: data,
       });
     }
-    console.log("instance", response);
+    console.log("instance >>>>>>>>>>>>>>", response);
     if (response !== undefined) {
       return await response.json();
     } else if (response !== undefined && !response.ok) {

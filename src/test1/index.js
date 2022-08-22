@@ -3,4 +3,5 @@ console.log("working");
 const root = document.querySelector(".App");
 const Nodes = document.querySelector(".Nodes");
 const Breadcrumb = document.querySelector(".Breadcrumb");
-new App({ root, Nodes, Breadcrumb });
+const Modal = document.querySelector(".Modal");
+new App({ root, Nodes, Breadcrumb, Modal });
