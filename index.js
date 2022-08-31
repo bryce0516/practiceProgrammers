@@ -19,7 +19,7 @@ app.use(express.json());
 // });
 // const reg = /\/.*/;
 app.get("/*", (req, res) => {
-  res.sendFile(path.resolve("./src/myClass", "./index.html"));
+  res.sendFile(path.resolve("./src/exam", "./index.html"));
 });
 
 app.listen(port, () => console.log(`Server is running port :: ${port}`));
