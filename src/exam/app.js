@@ -15,6 +15,7 @@ export default class App {
     let container = document.createElement("div");
     container.className = "HeaderContainer";
     let nav = document.createElement("nav");
+    nav.className = "navList";
     container.appendChild(nav);
     const headerList = [
       { name: "Home", url: "" },
@@ -24,12 +25,24 @@ export default class App {
     headerList.map((element) => {
       const link = document.createElement("a");
       link.setAttribute("class", "navItem");
-      link.setAttribute("href", `${element.url}`);
+      link.setAttribute("href", `#`);
+      link.setAttribute("value", `${element.url}`);
+      // link.setAttribute("onclick", () => this.navigateTo(element.url));
       link.textContent = `${element.name}`;
       nav.appendChild(link);
     });
     this.app.appendChild(container);
+    this.app.addEventListener("click", (event) => {
+      if (event.target.closest(".navItem")) {
+        event.preventDefault();
+        this.navigateTo(event.target.getAttribute("value"));
+      }
+    });
   }
+
+  navigateTo = (to) => {
+    window.history.pushState({}, to, window.location.origin + "/" + to);
+  };
 
   setCurrentRouter() {
     const currentRouter = this.router.find((element) => element.isMatched);
